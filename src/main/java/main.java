@@ -1,3 +1,4 @@
+import Authentication.Authenticate;
 import FileManager.DirectoryCreator;
 import Logger.QueryLogger;
 import org.json.simple.JSONArray;
@@ -13,6 +14,8 @@ import java.util.Objects;
 public class main {
 
     public static void main(String[] args) throws IOException, ParseException {
+        Authenticate authenticate = new Authenticate();
+        authenticate.init();
         DirectoryCreator dc = new DirectoryCreator();
 
         //dc.createDirectory("a");

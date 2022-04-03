@@ -9,5 +9,8 @@
         <module name="DataProject" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="data-project" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
