@@ -1,27 +1,33 @@
 import Authentication.Authenticate;
-import FileManager.DirectoryCreator;
 import Logger.QueryLogger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.management.remote.JMXServerErrorException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Objects;
+
 
 public class main {
 
     public static void main(String[] args) throws IOException, ParseException {
+
+//        QueryLogger q = new QueryLogger();
+//        q.logQuery("database1", "Select * from person;", true, 1, "select",
+//                10, 10, 50);
+//
+//        q.logQuery("database1", "Select * from person3;", true, 1, "select",
+//                10, 10, 50);
+//
+//        q.logQuery("database1", "Select * from person2;", true, 1, "select",
+//                10, 10, 50);
+
+
         Authenticate authenticate = new Authenticate();
         authenticate.init();
-        DirectoryCreator dc = new DirectoryCreator();
+        //       DirectoryCreator dc = new DirectoryCreator();
 
         //dc.createDirectory("a");
 
-        QueryLogger q = new QueryLogger();
-        q.logQuery("a", "B", "a" , "a");
+//        QueryLogger q = new QueryLogger();
+//        q.logQuery("a", "B", "a" , "a");
 
 //        FileReader f = new FileReader("./Logs/a/QueryLogs.json");
 //        JSONParser parser = new JSONParser();

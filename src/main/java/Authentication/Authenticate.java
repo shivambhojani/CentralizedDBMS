@@ -1,5 +1,7 @@
 package Authentication;
 
+import CreateSession.SessionCreator;
+
 import java.util.Scanner;
 
 public class Authenticate {
@@ -143,6 +145,10 @@ public class Authenticate {
         if (!user.getAnswer().equalsIgnoreCase(answer)) {
             System.out.println("Invalid Security");
             return;
+        }
+        else {
+            SessionCreator sessionCreator = new SessionCreator();
+            sessionCreator.createSession();
         }
     }
 }

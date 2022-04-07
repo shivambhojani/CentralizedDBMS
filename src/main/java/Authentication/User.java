@@ -161,6 +161,7 @@ public class User {
             if (users[i].getEncryptedUserId().equals(encryption.MD5(userId)) && users[i].getEncryptedPassword().equals(encryption.MD5(password))) {
                 isFound = true;
                 user = users[i];
+
                 break;
             }
         }
