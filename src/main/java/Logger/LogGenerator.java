@@ -6,12 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
-public class QueryLogger {
+
+public class LogGenerator {
 
     public void logQuery(String database, String query, Boolean isValid,  int userId, String queryType, int queryTime, int numOfTables, int numOfRecords) throws IOException {
 
-        dbFileChecker(database);
+        dbFolderChecker(database);
         querylogFileChecker(database);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -50,10 +52,35 @@ public class QueryLogger {
         file.close();
     }
 
+    public void addToLoginHistory(String userID, String logType) throws IOException {
+        generallogFileChecker(logType);
+        String path = StaticData.logPath  + "/" + StaticData.generalLogsFileName;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        if (Objects.equals(logType, StaticData.login)){
+            FileWriter file = new FileWriter(path, true);
+            String log = userID + " logged in at " + timestamp;
+            file.write(log);
+            file.write("\n");
+            file.flush();
+            file.close();
+        }
+        else if (Objects.equals(logType, StaticData.logout)){
+            FileWriter file = new FileWriter(path, true);
+            String log = userID + " logged out at " + timestamp;
+            file.write(log);
+            file.write("\n");
+            file.flush();
+            file.close();
+        }
+        else {
+            System.out.println("Unable to generate log for the login/logout");
+        }
+    }
 
 
 
-    public void dbFileChecker(String database) {
+    public void dbFolderChecker(String database) {
 
         DirectoryCreator directoryCreator = new DirectoryCreator();
 
@@ -75,15 +102,14 @@ public class QueryLogger {
         FileCreator fileCreator = new FileCreator();
         fileCreator.checkOrCreateFile(database, StaticData.queryLogType);
 
-        //        String path = StaticData.logPath + "/" + database + "/" + StaticData.queryLogsFileName;
-//        File file = new File(path);
-//        if (file.exists()) {
-//            return;
-//        } else {
-//            file.createNewFile();
-//            System.out.println("QueryLog.json file created under Directory: " + database);
-//            return;
-//        }
+    }
+
+
+    public void generallogFileChecker(String database) throws IOException {
+
+        FileCreator fileCreator = new FileCreator();
+        fileCreator.checkOrCreateFile(StaticData.generalLogType);
+
     }
 
 }

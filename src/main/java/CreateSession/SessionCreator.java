@@ -1,14 +1,24 @@
 package CreateSession;
-
+import Configs.StaticData;
 import Exporter.ExportDump;
+import Logger.LogGenerator;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class SessionCreator {
 
+    private String userID = "";
+    LogGenerator logGenerator = new LogGenerator();
+
+    public SessionCreator(String userID){
+        this.userID = userID;
+    }
+
     private String userInput1 = "";
 
-    public void createSession() {
+    public void createSession() throws IOException {
+
         System.out.println("<<<<<<<<<<<<<<<<<<<< New Session Created >>>>>>>>>>>>>>>>>>>>");
         System.out.println();
         do {
@@ -41,6 +51,7 @@ public class SessionCreator {
                     break;
 
                 case "5":
+                    logGenerator.addToLoginHistory(userID, StaticData.logout);
                     System.out.println("Bye!!!");
                     System.exit(0);
                     break;

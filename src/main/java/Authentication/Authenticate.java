@@ -1,11 +1,15 @@
 package Authentication;
 
+import Configs.StaticData;
 import CreateSession.SessionCreator;
+import Logger.LogGenerator;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Authenticate {
-    public void init() {
+    private String loggeduserID="";
+    public void init() throws IOException {
         System.out.println("1. Register");
         System.out.println("2. Login");
         System.out.println("3. Exit");
@@ -94,7 +98,7 @@ public class Authenticate {
         user.save();
     }
 
-    private void login() {
+    private void login() throws IOException {
         Scanner sc = new Scanner(System.in);
         String userId = "";
         String password = "";
@@ -104,6 +108,7 @@ public class Authenticate {
             System.out.println("");
             System.out.print("Enter UserId: ");
             userId = sc.nextLine();
+            loggeduserID = userId;
             if (userId.length() < 1) {
                 System.out.println("userId cannot be empty.");
                 continue;
@@ -147,7 +152,9 @@ public class Authenticate {
             return;
         }
         else {
-            SessionCreator sessionCreator = new SessionCreator();
+            LogGenerator logGenerator = new LogGenerator();
+            logGenerator.addToLoginHistory(loggeduserID, StaticData.login);
+            SessionCreator sessionCreator = new SessionCreator(loggeduserID);
             sessionCreator.createSession();
         }
     }
