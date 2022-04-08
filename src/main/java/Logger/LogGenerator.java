@@ -11,15 +11,15 @@ import java.util.Objects;
 
 public class LogGenerator {
 
-    public void logQuery(String database, String query, Boolean isValid,  int userId, String queryType, int queryTime, int numOfTables, int numOfRecords) throws IOException {
+    public void logQuery(String database, String query, Boolean isValid,  String userId, String queryType, int queryTime, int numOfTables, int numOfRecords) throws IOException {
 
-        dbFolderChecker(database);
+       // dbFolderChecker(database);
         querylogFileChecker(database);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        String path = StaticData.logPath + "/" + database + "/" + StaticData.queryLogsFileName;
+        String path = StaticData.logPath + "/" + StaticData.queryLogsFileName;
         FileWriter file = new FileWriter(path, true);
 
         simpleDateFormat.format(timestamp);
@@ -100,7 +100,7 @@ public class LogGenerator {
     public void querylogFileChecker(String database) throws IOException {
 
         FileCreator fileCreator = new FileCreator();
-        fileCreator.checkOrCreateFile(database, StaticData.queryLogType);
+        fileCreator.checkOrCreateFile(StaticData.queryLogType);
 
     }
 

@@ -1,4 +1,5 @@
 import Authentication.Authenticate;
+import Logger.LogGenerator;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -8,14 +9,14 @@ public class main {
 
     public static void main(String[] args) throws IOException, ParseException {
 
-//        QueryLogger q = new QueryLogger();
-//        q.logQuery("database1", "Select * from person;", true, 1, "select",
+//        LogGenerator q = new LogGenerator();
+//        q.logQuery("database1", "Select * from person;", true, "Shivam", "select",
 //                10, 10, 50);
 //
-//        q.logQuery("database1", "Select * from person3;", true, 1, "select",
+//        q.logQuery("database1", "Select * from person3;", true, "Shivam", "select",
 //                10, 10, 50);
 //
-//        q.logQuery("database1", "Select * from person2;", true, 1, "select",
+//        q.logQuery("database1", "Select * from person2;", true, "Shivam", "select",
 //                10, 10, 50);
 
 
