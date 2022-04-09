@@ -1,2 +1,0 @@
-table1|(id)
-table1|null|null|null

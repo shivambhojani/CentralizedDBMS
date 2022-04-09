@@ -1,6 +1,0 @@
-id|name
-1|ferin
-2|chirag
-4|bijit
-
-
