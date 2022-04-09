@@ -1,5 +1,7 @@
 package Analytics;
 
+import Configs.StaticData;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,7 +14,7 @@ import java.util.Scanner;
 
 public class Analytics {
 
-    private final static String generalLogsFilePath = "src/Logs/QueryLog.txt";
+    private final static String generalLogsFilePath = StaticData.logPath  + "/" + StaticData.queryLogsFileName;
     public static List<QueriesCounter> queriesCounters = new ArrayList<>();
     public static List<String> logs = new ArrayList<>();
     public static List<UpdateQueries> updateQueries = new ArrayList<>();
@@ -171,7 +173,7 @@ public class Analytics {
 
 
     public static void readLogFile() throws IOException {
-        boolean fileExits = Files.exists(Path.of("src/Logs/QueryLogs.txt"));
+        boolean fileExits = Files.exists(Path.of(StaticData.logPath  + "/" + StaticData.queryLogsFileName));
         if (fileExits) {
             File generalLogs = new File(generalLogsFilePath);
             FileReader logReader = new FileReader(generalLogs);
