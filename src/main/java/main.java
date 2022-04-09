@@ -1,31 +1,34 @@
-import FileManager.DirectoryCreator;
-import Logger.QueryLogger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import Authentication.Authenticate;
+import Logger.GetTimer;
 
-import javax.management.remote.JMXServerErrorException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Objects;
+
 
 public class main {
 
-    public static void main(String[] args) throws IOException, ParseException {
-        DirectoryCreator dc = new DirectoryCreator();
+    public static void main(String[] args) throws IOException, InterruptedException {
 
-        //dc.createDirectory("a");
-
-        QueryLogger q = new QueryLogger();
-        q.logQuery("a", "B", "a" , "a");
-
-//        FileReader f = new FileReader("./Logs/a/QueryLogs.json");
-//        JSONParser parser = new JSONParser();
-//        Object object = parser.parse(f);
-//        JSONObject jsonObject = (JSONObject) object;
+//        LogGenerator q = new LogGenerator();
+//        q.logQuery("database1", "Select * from person;", true, "Shivam", "select",
+//                10, 10, 50);
 //
-//        System.out.println(jsonObject.size());
+//        q.logQuery("database1", "Select * from person3;", true, "Shivam", "select",
+//                10, 10, 50);
+//
+//        q.logQuery("database1", "Select * from person2;", true, "Shivam", "select",
+//                10, 10, 50);
+
+
+        Authenticate authenticate = new Authenticate();
+        authenticate.init();
+
+//        GetTimer t = new GetTimer();
+//        t.getCurrentTime();
+
+
+//        ExportDump e = new ExportDump();
+//        e.createSQLDump();
+
 
     }
 
