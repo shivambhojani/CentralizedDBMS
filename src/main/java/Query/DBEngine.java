@@ -376,8 +376,6 @@ public class DBEngine {
                         record+= "|";
                     }
                 }
-
-                record += "\n";
                 tableData.set(cnt, record);
             }
             else if(criteria.get("criteria").matches(">") &&
@@ -395,8 +393,6 @@ public class DBEngine {
                         record+= "|";
                     }
                 }
-
-                record += "\n";
                 tableData.set(cnt, record);
             }
             else if(criteria.get("criteria").matches("<") &&
@@ -414,14 +410,13 @@ public class DBEngine {
                         record+= "|";
                     }
                 }
-
-                record += "\n";
                 tableData.set(cnt, record);
             }
 
         }
 
         overwriteFile(dbName, tableName, tableData);
+        System.out.println("Record updated successfully.");
 
         return res;
     }
