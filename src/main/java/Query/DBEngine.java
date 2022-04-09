@@ -465,7 +465,7 @@ public class DBEngine {
 
         int criteriaIndex = tableHeadings.indexOf(criteria.get("name"));
 
-        System.out.println("\n" + tableData.get(0));
+        System.out.println("" + tableData.get(0));
 
         for(int cnt=1; cnt<tableData.size(); cnt++)
         {
