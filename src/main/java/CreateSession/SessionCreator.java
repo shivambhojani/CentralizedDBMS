@@ -1,4 +1,5 @@
 package CreateSession;
+import Analytics.Analytics;
 import Authentication.Authenticate;
 import Configs.StaticData;
 import Exporter.ExportDump;
@@ -48,6 +49,7 @@ public class SessionCreator {
                     break;
                 case "4":
                     //Integrate Analytics
+                    Analytics.main(new String[] {});
                     System.exit(0);
                     break;
 
