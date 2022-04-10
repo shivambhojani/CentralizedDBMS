@@ -26,12 +26,10 @@ public class Analytics {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter analytics query string");
         String queryString = scanner.nextLine();
-        System.out.println("query string is "+queryString);
 
         readLogFile();
         generateUserQueries();
         generateUpdateQueries();
-//        printCreateLogs(queriesCounters);
 
         if(queryString.contains("count queries")) {
             String [] entries = queryString.split(" ");
@@ -48,7 +46,7 @@ public class Analytics {
         }else if(queryString.contains("count update DB1;")){
             String [] entries = queryString.split(" ");
             if(!(entries.length==3)) {
-                System.out.println("Invalid count query");
+                System.out.println("Invalid query");
                 return;
             }
             if(entries[2].contains(";")) {
@@ -58,19 +56,38 @@ public class Analytics {
                 System.out.println("Invalid query");
             }
         }
-        else{
-            System.out.println("Invalid Query");
+        else if (queryString.contains("count update DB2;")) {
+            String[] entries = queryString.split(" ");
+            if (!(entries.length == 3)) {
+                System.out.println("Invalid query");
+                return;
+            }
+            if (entries[2].contains(";")) {
+                analytics.printUpdateQueries2(updateQueries);
+            } else {
+                System.out.println("Invalid query");
+            }
         }
         return;
     }
 
-    public static void printUpdateQueries(List<UpdateQueries> updateQueries) {
-        if(updateQueries.size()==0){
-            System.out.println("No update queries performed");
+    public static void printUpdateQueries2(List<UpdateQueries> updateQueries) {
+        if (updateQueries.size() == 0) {
+            System.out.println("No update queries performed on db2");
             return;
         }
         for (UpdateQueries update : updateQueries) {
-            System.out.printf(update.getNoOfQueries()+" update queries performed on "+update.getTableName()+ "\n");
+            System.out.printf("Total " + update.getNoOfQueries() + "Update operations are performed on " + update.getTableName() + "\n");
+        }
+    }
+
+    public static void printUpdateQueries(List<UpdateQueries> updateQueries) {
+        if (updateQueries.size() == 0) {
+            System.out.println("No update queries performed on db1");
+            return;
+        }
+        for (UpdateQueries update : updateQueries) {
+            System.out.printf("Total " + update.getNoOfQueries() + "Update operations are performed on " + update.getTableName() + "\n");
         }
     }
 
@@ -116,6 +133,8 @@ public class Analytics {
                         }
                     }
                 }
+            }else {
+                System.out.println("No queries performed");
             }
         }
     }
@@ -126,11 +145,19 @@ public class Analytics {
             return;
         }
         for (QueriesCounter count : counters) {
-            System.out.printf("User " + count.getUserName() + " has executed " + count.getNumberOfQueries() + "\n");
+            if (count.getUserName().equalsIgnoreCase("abc") || count.getUserName().equalsIgnoreCase("chirag") || count.getUserName().equalsIgnoreCase("dbuser")) {
+                System.out.printf("User " + count.getUserName() + " has executed " + count.getNumberOfQueries() + " for DB2 running on Virtual Machine 2\n");
+            } else {
+                System.out.printf("User " + count.getUserName() + " has executed " + count.getNumberOfQueries() + " for DB1 running on Virtual Machine 1\n");
+            }
         }
     }
 
     public static void generateUserQueries() {
+        if (logs.size() == 0) {
+            System.out.println("No operations performed");
+            return;
+        }
         for (String log : logs) {
             if (log.contains("|")) {
                 List<String> logValues = List.of(log.split("\\|"));
@@ -180,7 +207,6 @@ public class Analytics {
             BufferedReader reader = new BufferedReader(logReader);
             String nextLine = "";
             while ((nextLine = reader.readLine()) != null) {
-//                System.out.println(nextLine);
                 logs.add(nextLine);
             }
         }
