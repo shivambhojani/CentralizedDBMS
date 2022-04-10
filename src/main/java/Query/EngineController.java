@@ -1,17 +1,26 @@
 package Query;
-import java.io.IOException;
+
 import java.util.Scanner;
+import Distribution.Client;
 
 public class EngineController {
 
-    public static void printMenu()
+    private Client client;
+
+    public EngineController(Client tClient)
+    {
+        client = tClient;
+    }
+
+    public void printMenu()
     {
         System.out.print("sql > ");
     }
 
-    public static void startEngine() throws IOException, InterruptedException {
+    public void startEngine()
+    {
         String userInput = "";
-        QueryEngine engine = new QueryEngine();
+        QueryEngine engine = new QueryEngine(client);
         Scanner sc = new Scanner(System.in);
 
         while(true)
@@ -29,10 +38,6 @@ public class EngineController {
             }
         }
 
-    }
-
-    public static void main(String [] args) throws IOException, InterruptedException {
-        EngineController.startEngine();
     }
 
 }
