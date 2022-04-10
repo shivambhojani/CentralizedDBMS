@@ -55,12 +55,12 @@ public class QueryEngine {
                 System.out.println("Database created successfully!");
             } else {
                 String general = "User " + userID + " tried to created duplicate database with name " + query[2];
-                logGenerator.generalLog(general);
+                logGenerator.eventLog(general);
                 System.out.println("Error: Database already exist with name " + query[2]);
             }
         } else {
             String general = "User " + userID + " executed invalid query: " + query[2];
-            logGenerator.generalLog(general);
+            logGenerator.eventLog(general);
             String q = "";
             for (String s : query) {
                 q = q + " " + s;
@@ -106,12 +106,12 @@ public class QueryEngine {
                 System.out.println("Database selected successfully!");
             } else {
                 String general = "User " + userID + " executed query with invalid database: " + query[2];
-                logGenerator.generalLog(general);
+                logGenerator.eventLog(general);
                 System.out.println("Error: Database does not exist with name " + query[1]);
             }
         } else {
             String general = "User " + userID + " executed invalid query: " + query[2];
-            logGenerator.generalLog(general);
+            logGenerator.eventLog(general);
 
             String q = "";
             for (String s : query) {
@@ -222,14 +222,14 @@ public class QueryEngine {
                 logGenerator.logQuery(dbName, query.trim(), true, userID, "Create", String.valueOf(executionTime));
 
                 String general = "User " + userID + " created new table " + table_name + "in " + dbName;
-                logGenerator.generalLog(general);
+                logGenerator.eventLog(general);
 
                 System.out.println("Table created successfully!");
             }
 
         } else {
             String general = "User " + userID + " tried to create duplicate table ";
-            logGenerator.generalLog(general);
+            logGenerator.eventLog(general);
 
             System.out.println("Error: Table already exists with name " + table_name);
             result = false;
@@ -268,7 +268,7 @@ public class QueryEngine {
         long executionTime = 0;
         if (ValidationEngine.validateSelectQuery(dbName, query) && query.contains("where")) {
             String[] splits = query.split("select | from | where");
-            System.out.println(splits.length);
+//            System.out.println(splits.length);
 
             HashMap<String, String> criteria = new HashMap<>();
             criteria.put("name", splits[3].replaceAll("[><=]", " ").strip().split(" ")[0]);
