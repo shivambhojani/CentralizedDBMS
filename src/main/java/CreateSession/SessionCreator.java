@@ -48,9 +48,7 @@ public class SessionCreator {
                     umlEngine.startEngine();
                     break;
                 case "4":
-                    //Integrate Analytics
                     Analytics.main(new String[] {});
-                    System.exit(0);
                     break;
 
                 case "5":
