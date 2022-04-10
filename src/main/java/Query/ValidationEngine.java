@@ -3,22 +3,28 @@ package Query;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import Distribution.Client;
 
 public class ValidationEngine {
 
-    public ValidationEngine() {};
+    private DBEngine databaseEngine;
 
-    public static boolean checkIfDbExists(String dbName)
+    public ValidationEngine(Client client)
+    {
+        databaseEngine = new DBEngine(client);
+    };
+
+    public boolean checkIfDbExists(String dbName)
     {
         return Files.exists(Path.of(dbName));
     }
 
-    public static boolean checkIfTableExists(String dbName, String tableName)
+    public boolean checkIfTableExists(String dbName, String tableName)
     {
         return Files.exists(Path.of(dbName + "/" + tableName + ".txt"));
     }
 
-    private static boolean isValidNumber(String data)
+    private boolean isValidNumber(String data)
     {
         boolean result = true;
 
@@ -36,12 +42,12 @@ public class ValidationEngine {
         return result;
     }
 
-    public static boolean validateInsertQuery(String dbName, String query)
+    public boolean validateInsertQuery(String dbName, String query)
     {
         boolean res = true;
 
         //Separate Input data and query initials
-        //Example: Seperating INSERT INTO <tablename> from (value1, value2, ....)
+        //Example: Separating INSERT INTO <tablename> from (value1, value2, ....)
         String [] data = query.split("\\(");
 
         //Extract string containing all values to be inserted as new record
@@ -54,7 +60,7 @@ public class ValidationEngine {
 
         if(checkIfTableExists(dbName, data[2].strip())) //If table exists
         {
-            List<HashMap<String, String>> tableMetaData = DBEngine.getTableMetadata(dbName, data[2].strip());
+            List<HashMap<String, String>> tableMetaData = databaseEngine.getTableMetadata(dbName, data[2].strip());
 
             if(tableMetaData.size() == queryData.length)
             {
@@ -118,7 +124,7 @@ public class ValidationEngine {
                 if(res)
                 {
                     int inputID = Integer.parseInt(queryData[0]);
-                    if((DBEngine.getMaxRecords(dbName, data[2].strip()) + 1) != inputID)
+                    if((databaseEngine.getMaxRecords(dbName, data[2].strip()) + 1) != inputID)
                     {
                         System.out.println("Invalid Primary key");
                         res = false;
@@ -141,7 +147,7 @@ public class ValidationEngine {
         return res;
     }
 
-    public static boolean validateUpdateQuery(String dbName, String query)
+    public boolean validateUpdateQuery(String dbName, String query)
     {
         boolean res = true;
         String [] splits = query.split("set | where");
@@ -154,8 +160,8 @@ public class ValidationEngine {
 
         if(checkIfTableExists(dbName, tableName))
         {
-            List<HashMap<String, String>> tableMetaData = DBEngine.getTableMetadata(dbName, tableName);
-            List<String> tableHeadings = DBEngine.getTableHeadings(dbName, tableName);
+            List<HashMap<String, String>> tableMetaData = databaseEngine.getTableMetadata(dbName, tableName);
+            List<String> tableHeadings = databaseEngine.getTableHeadings(dbName, tableName);
 
             for(int cnt=0; cnt < inputDataList.size(); cnt++)
             {
@@ -250,7 +256,7 @@ public class ValidationEngine {
         return res;
     }
 
-    public static boolean validateDeleteQuery(String dbName, String query)
+    public boolean validateDeleteQuery(String dbName, String query)
     {
         boolean res = true;
 
@@ -259,8 +265,8 @@ public class ValidationEngine {
 
         if(checkIfTableExists(dbName, tableName))
         {
-            List<HashMap<String, String>> tableMetaData = DBEngine.getTableMetadata(dbName, tableName);
-            List<String> tableHeadings = DBEngine.getTableHeadings(dbName, tableName);
+            List<HashMap<String, String>> tableMetaData = databaseEngine.getTableMetadata(dbName, tableName);
+            List<String> tableHeadings = databaseEngine.getTableHeadings(dbName, tableName);
 
             String criteriaColName = splits[2].replaceAll("[><=]", " ").strip().split(" ")[0];
             String criteriaColData = splits[2].replaceAll("[><=]", " ").strip().split(" ")[1];
@@ -333,7 +339,7 @@ public class ValidationEngine {
         return res;
     }
 
-    public static boolean validateSelectQuery(String dbName, String query)
+    public boolean validateSelectQuery(String dbName, String query)
     {
         boolean res = true;
         String [] splits = query.split("select | from | where");
@@ -343,8 +349,8 @@ public class ValidationEngine {
         {
             if(checkIfTableExists(dbName, tableName))
             {
-                List<HashMap<String, String>> tableMetaData = DBEngine.getTableMetadata(dbName, tableName);
-                List<String> tableHeadings = DBEngine.getTableHeadings(dbName, tableName);
+                List<HashMap<String, String>> tableMetaData = databaseEngine.getTableMetadata(dbName, tableName);
+                List<String> tableHeadings = databaseEngine.getTableHeadings(dbName, tableName);
 
                 String criteriaColName = splits[3].replaceAll("[><=]", " ").strip().split(" ")[0];
                 String criteriaColData = splits[3].replaceAll("[><=]", " ").strip().split(" ")[1];

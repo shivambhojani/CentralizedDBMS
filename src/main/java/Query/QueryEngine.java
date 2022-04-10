@@ -9,18 +9,23 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalTime;
 import java.util.*;
-
+import Distribution.Client;
 import static CreateSession.SessionCreator.userID;
 
 public class QueryEngine {
 
     LogGenerator logGenerator = new LogGenerator();
     public static String dbName;
+    private DBEngine databaseEngine;
+    private ValidationEngine validator;
+    private Client client2;
 
-//    public QueryEngine()
-//    {
-//        dbName = "";
-//    }
+    public QueryEngine(Client client)
+    {
+        this.client2 = client;
+        databaseEngine = new DBEngine(client);
+        validator = new ValidationEngine(client);
+    }
 
     /**
      * This method creates the database in the application.
@@ -39,12 +44,12 @@ public class QueryEngine {
         if (query.length == 3) {
             //If database does not exist with same name
             // try to create db, else display error
-            if (!ValidationEngine.checkIfDbExists(query[2])) {
+            if (!validator.checkIfDbExists(query[2])) {
                 //Call method from module 1 to create a new database
                 //The method must return true if success, else false
                 //If true, print success message
                 //Example objModule1.createDB(database_name);
-                result = DBEngine.createDB(query[2]);
+                result = databaseEngine.createDB(query[2]);
                 LocalTime l2 = GetTimer.getCurrentTime();
                 executionTime = GetTimer.duration(l1, l2);
                 String q = "";
@@ -89,7 +94,7 @@ public class QueryEngine {
         if (query.length == 2) {
             //If database exist with same name
             // execute query, else display error
-            if (ValidationEngine.checkIfDbExists(query[1])) {
+            if (validator.checkIfDbExists(query[1])) {
                 //Call method from module 1 to select database as existing
                 //The method must return true if success, else false
                 //If true, print success message
@@ -142,7 +147,7 @@ public class QueryEngine {
         long executionTime = 0;
         boolean result = true;
 
-        if (!ValidationEngine.checkIfTableExists(dbName, table_name)) {
+        if (!validator.checkIfTableExists(dbName, table_name)) {
             String[] queryData = query.split(" ");
             String table_params = "";
 
@@ -204,7 +209,8 @@ public class QueryEngine {
 
                 System.out.println(tableMap.get("total_columns") + " " + tableMap.get("col_1_name"));
 
-                result = DBEngine.createTable(dbName, tableMap);
+
+                result = databaseEngine.createTable(dbName, tableMap);
                 //require a method from module 1 to be called
                 //hashmap will be passed to that method to create the table
                 //hashmap will contain following keys and associated values:
@@ -248,8 +254,8 @@ public class QueryEngine {
         String newRecord = data[1].replace(")", " ").strip();
         String[] queryData = newRecord.split(",");
 
-        if (ValidationEngine.validateInsertQuery(dbName, query)) {
-            result = DBEngine.insertRecord(dbName, table_name, queryData);
+        if (validator.validateInsertQuery(dbName, query)) {
+            result = databaseEngine.insertRecord(dbName, table_name, queryData);
         }
 
         if (result) {
@@ -266,7 +272,7 @@ public class QueryEngine {
         boolean res = false;
         LocalTime l1 = GetTimer.getCurrentTime();
         long executionTime = 0;
-        if (ValidationEngine.validateSelectQuery(dbName, query) && query.contains("where")) {
+        if (validator.validateSelectQuery(dbName, query) && query.contains("where")) {
             String[] splits = query.split("select | from | where");
 //            System.out.println(splits.length);
 
@@ -284,10 +290,11 @@ public class QueryEngine {
                 criteria.put("criteria", "<");
             }
 
-            res = DBEngine.selectRecord(dbName, table_name, criteria);
-        } else if (ValidationEngine.validateSelectQuery(dbName, query)) {
-            res = DBEngine.selectAllRecords(dbName, table_name);
+            res = databaseEngine.selectRecord(dbName, table_name, criteria);
+        } else if (validator.validateSelectQuery(dbName, query)) {
+            res = databaseEngine.selectAllRecords(dbName, table_name);
         }
+
         LocalTime l2 = GetTimer.getCurrentTime();
         executionTime = GetTimer.duration(l1,l2);
         logGenerator.logQuery(dbName, query.trim(), true, userID, "Select", String.valueOf(executionTime));
@@ -298,7 +305,7 @@ public class QueryEngine {
         boolean result = false;
         LocalTime l1 = GetTimer.getCurrentTime();
         long executionTime = 0;
-        if (ValidationEngine.validateUpdateQuery(dbName, query)) {
+        if (validator.validateUpdateQuery(dbName, query)) {
             String[] splits = query.split("set | where");
 
             HashMap<String, String> criteria = new HashMap<>();
@@ -317,7 +324,7 @@ public class QueryEngine {
             updateColumn.put("name", splits[1].replaceAll("[=]", " ").strip().split(" ")[0]);
             updateColumn.put("value", splits[1].replaceAll("[=]", " ").strip().split(" ")[1]);
 
-            result = DBEngine.updateRecord(dbName, table_name, criteria, updateColumn);
+            result = databaseEngine.updateRecord(dbName, table_name, criteria, updateColumn);
         }
         LocalTime l2 = GetTimer.getCurrentTime();
         executionTime = GetTimer.duration(l1,l2);
@@ -329,7 +336,7 @@ public class QueryEngine {
         boolean res = true;
         LocalTime l1 = GetTimer.getCurrentTime();
         long executionTime = 0;
-        if (ValidationEngine.validateDeleteQuery(dbName, query)) {
+        if (validator.validateDeleteQuery(dbName, query)) {
             String[] splits = query.split("from | where");
 
             HashMap<String, String> criteria = new HashMap<>();
@@ -344,7 +351,7 @@ public class QueryEngine {
                 criteria.put("criteria", "<");
             }
 
-            res = DBEngine.deleteRecord(dbName, table_name, criteria);
+            res = databaseEngine.deleteRecord(dbName, table_name, criteria);
         }
         LocalTime l2 = GetTimer.getCurrentTime();
         executionTime = GetTimer.duration(l1,l2);
@@ -399,7 +406,7 @@ public class QueryEngine {
 
                     String event = "User " + userID + " started transaction: " + query;
                     logGenerator.eventLog(event);
-                    Transaction transaction = new Transaction();
+                    Transaction transaction = new Transaction(client2);
                     transaction.init();
                 }
 

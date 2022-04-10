@@ -1,5 +1,4 @@
 package Query;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,12 +6,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import Distribution.Client;
 
 public class DBEngine {
 
-    public DBEngine(){};
+    private Client client;
 
-    public static boolean createDB(String dbName)
+    public DBEngine(Client tClient)
+    {
+        client = tClient;
+    };
+
+    public boolean createDB(String dbName)
     {
         boolean res = false;
         try {
@@ -27,7 +32,7 @@ public class DBEngine {
         return res;
     }
 
-    private static boolean updateMetadata(String dbName, HashMap<String, String> tableData)
+    private boolean updateMetadata(String dbName, HashMap<String, String> tableData)
     {
         boolean res = false;
 
@@ -54,6 +59,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + "meta.txt");
             res  =true;
 
         } catch (FileNotFoundException e) {
@@ -65,7 +71,7 @@ public class DBEngine {
         return res;
     }
 
-    private static boolean updateRelationships(String dbName, HashMap<String, String> tableData)
+    private boolean updateRelationships(String dbName, HashMap<String, String> tableData)
     {
         boolean res = false;
 
@@ -79,6 +85,8 @@ public class DBEngine {
 
             fileHandle.write(line);
             fileHandle.close();
+            client.sendMessage(dbName + "/" + "relationships.txt");
+
             res  =true;
 
         } catch (FileNotFoundException e) {
@@ -90,7 +98,7 @@ public class DBEngine {
         return res;
     }
 
-    public static boolean createTable(String dbName, HashMap<String, String> tableData)
+    public boolean createTable(String dbName, HashMap<String, String> tableData)
     {
         boolean res = false;
 
@@ -114,6 +122,7 @@ public class DBEngine {
                 line+= "\n";
                 fileHandle.write(line);
                 fileHandle.close();
+                client.sendMessage(dbName + "/" + tableData.get("name") + ".txt");
                 res= true;
 
             } catch (FileNotFoundException e) {
@@ -131,7 +140,7 @@ public class DBEngine {
 
     }
 
-    public static List<HashMap<String, String>> getTableMetadata(String dbName, String tableName)
+    public List<HashMap<String, String>> getTableMetadata(String dbName, String tableName)
     {
         List<HashMap<String, String>> metadata = new ArrayList<>();
 
@@ -168,6 +177,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + "meta.txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -178,7 +188,7 @@ public class DBEngine {
         return metadata;
     }
 
-    public static List<String> getTables(String dbName)
+    public List<String> getTables(String dbName)
     {
         List<String> tableList = new ArrayList<>();
 
@@ -201,6 +211,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + "meta.txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -211,7 +222,7 @@ public class DBEngine {
         return tableList;
     }
 
-    public static List<String> getTableHeadings(String dbName, String tableName)
+    public List<String> getTableHeadings(String dbName, String tableName)
     {
         List<String> tableHeader = new ArrayList<>();
 
@@ -228,6 +239,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -238,7 +250,7 @@ public class DBEngine {
         return tableHeader;
     }
 
-    public static int getMaxRecords(String dbName, String tableName)
+    public int getMaxRecords(String dbName, String tableName)
     {
         int len = 0;
 
@@ -252,8 +264,8 @@ public class DBEngine {
             {
                 len+= 1;
             }
-
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -265,7 +277,7 @@ public class DBEngine {
         return len;
     }
 
-    public static List<String> getTableData(String dbName, String tableName)
+    public List<String> getTableData(String dbName, String tableName)
     {
         List<String> data = new ArrayList<>();
         try {
@@ -280,6 +292,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -290,7 +303,7 @@ public class DBEngine {
         return data;
     }
 
-    public static boolean insertRecord(String dbName, String tableName, String [] values)
+    public boolean insertRecord(String dbName, String tableName, String [] values)
     {
         boolean res = false;
         String record = "";
@@ -313,6 +326,7 @@ public class DBEngine {
 
             fileHandle.write(record);
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
             res = true;
 
         } catch (FileNotFoundException e) {
@@ -323,7 +337,7 @@ public class DBEngine {
         return res;
     }
 
-    private static boolean overwriteFile(String dbName, String tableName, List<String> data)
+    private boolean overwriteFile(String dbName, String tableName, List<String> data)
     {
         boolean res = false;
 
@@ -336,6 +350,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
             res = true;
 
         } catch (FileNotFoundException e) {
@@ -347,7 +362,7 @@ public class DBEngine {
         return res;
     }
 
-    public static boolean updateRecord(String dbName, String tableName, HashMap<String, String> criteria, HashMap<String, String> column)
+    public boolean updateRecord(String dbName, String tableName, HashMap<String, String> criteria, HashMap<String, String> column)
     {
         boolean res = true;
 
@@ -421,7 +436,7 @@ public class DBEngine {
         return res;
     }
 
-    public static boolean deleteRecord(String dbName, String tableName, HashMap<String, String> criteria)
+    public boolean deleteRecord(String dbName, String tableName, HashMap<String, String> criteria)
     {
         boolean res = true;
 
@@ -456,7 +471,7 @@ public class DBEngine {
         return res;
     }
 
-    public static boolean selectRecord(String dbName, String tableName, HashMap<String, String> criteria)
+    public boolean selectRecord(String dbName, String tableName, HashMap<String, String> criteria)
     {
         boolean res = true;
 
@@ -492,7 +507,7 @@ public class DBEngine {
         return res;
     }
 
-    public static boolean selectAllRecords(String dbName, String tableName)
+    public boolean selectAllRecords(String dbName, String tableName)
     {
         boolean res = true;
 

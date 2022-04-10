@@ -8,19 +8,22 @@ import java.util.List;
 import java.util.Scanner;
 import Query.DBEngine;
 import Query.ValidationEngine;
-
+import Distribution.Client;
 public class UMLGenerator {
-
+    private DBEngine databaseEngine;
+    private ValidationEngine validator;
     private String databaseName;
 
-    public UMLGenerator()
+    public UMLGenerator(Client client)
     {
         databaseName = "";
+        databaseEngine = new DBEngine(client);
+        validator = new ValidationEngine(client);
     }
 
     public void saveUML()
     {
-        List<String> tableList = DBEngine.getTables(databaseName);
+        List<String> tableList = databaseEngine.getTables(databaseName);
 
         try {
             BufferedWriter fileHandle = new BufferedWriter(new FileWriter(databaseName + "/uml.txt"));
@@ -28,7 +31,7 @@ public class UMLGenerator {
 
             for(int cnt=0; cnt<tableList.size(); cnt++)
             {
-                List<HashMap<String, String>> tableMetadata = DBEngine.getTableMetadata(databaseName, tableList.get(cnt));
+                List<HashMap<String, String>> tableMetadata = databaseEngine.getTableMetadata(databaseName, tableList.get(cnt));
 
                 fileHandle.write("==========Table Name: " + tableList.get(cnt) + " ==========\n");
 
@@ -80,7 +83,7 @@ public class UMLGenerator {
             else
             {
                 databaseName = userInput.strip();
-                if(ValidationEngine.checkIfDbExists(databaseName))
+                if(validator.checkIfDbExists(databaseName))
                 {
                     saveUML();
                 }

@@ -1,10 +1,12 @@
 package Transaction;
 
 import CreateSession.SessionCreator;
+import Distribution.Client;
 import Logger.LogGenerator;
 import Query.QueryEngine;
 
 import java.io.IOException;
+import java.lang.ref.Cleaner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +14,12 @@ import java.util.Scanner;
 import static CreateSession.SessionCreator.userID;
 
 public class Transaction {
+
+    private Client clientT;
+
+    public Transaction (Client client) {
+        this.clientT = client;
+    }
 
     LogGenerator logGenerator = new LogGenerator();
 
@@ -38,7 +46,8 @@ public class Transaction {
                 }
             }
         }
-        QueryEngine queryEngine = new QueryEngine();
+
+        QueryEngine queryEngine = new QueryEngine(clientT);
 
         double startTime = System.nanoTime();
         for (String item : queries) {

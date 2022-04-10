@@ -39,14 +39,15 @@ public class SessionCreator {
             userInput1 = input;
             switch (input) {
                 case "1":
-                    EngineController.startEngine();
+                    EngineController ec = new EngineController(client);
+                    ec.startEngine();
                     break;
                 case "2":
                     ExportDump e = new ExportDump();
                     e.createSQLDump();
                     break;
                 case "3":
-                    UMLGenerator umlEngine = new UMLGenerator();
+                    UMLGenerator umlEngine = new UMLGenerator(client);
                     umlEngine.startEngine();
                     break;
                 case "4":
