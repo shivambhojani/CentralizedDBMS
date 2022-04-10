@@ -26,7 +26,6 @@ public class SessionCreator {
     public void createSession() throws IOException, InterruptedException {
 
         System.out.println("<<<<<<<<<<<<<<<<<<<< New Session Created >>>>>>>>>>>>>>>>>>>>");
-        System.out.println();
         do {
             System.out.println();
             System.out.println("1. Write Queries");

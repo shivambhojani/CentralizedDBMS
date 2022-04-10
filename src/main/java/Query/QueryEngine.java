@@ -373,7 +373,6 @@ public class QueryEngine {
                 break;
 
             case "use":
-
                 result = useDB(queryData);
                 break;
 
@@ -397,11 +396,16 @@ public class QueryEngine {
             case "start":
                 if (queryData[1].equalsIgnoreCase("transaction"))
                 {
+
+                    String event = "User " + userID + " started transaction: " + query;
+                    logGenerator.eventLog(event);
                     Transaction transaction = new Transaction();
                     transaction.init();
                 }
 
             default:
+                String event = "User " + userID + " executed invalid query: " + query;
+                logGenerator.eventLog(event);
                 System.out.println("Invalid Query! Please try again.");
                 break;
         }

@@ -36,6 +36,10 @@ public class ExportDump {
             if (getTables.contains("uml")) {
                 getTables.remove("uml");
             }
+            if (getTables.contains("relationships")) {
+                getTables.remove("relationships");
+            }
+
             String allCreateQueries = "";
             if (getTables.size() > 0) {
                 allCreateQueries = createTablesSQL(getTables, dbName);
