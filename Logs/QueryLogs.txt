@@ -27,3 +27,11 @@ true|Select|shivam|select * from table1 where id=1|2022-04-09 17:14:20|1
 true|Select|shivam|select * from table1 where id>0|2022-04-09 17:15:34|0
 true|Update|shivam|update table1 set last_name='demo' where id=2|2022-04-09 17:15:43|1
 true|Delete|shivam|delete from table1 where id=2|2022-04-09 17:15:58|0
+true|Select|abc|select * from table1 where id=1|2022-04-10 00:39:23|23
+true|Use|abc|use ferindb2|2022-04-10 00:39:37|0
+true|Select|abc|select * from table1 where id=1|2022-04-10 00:39:58|17
+true|Select|abc|select * from table1|2022-04-10 00:40:22|2
+true|Use|abc|use ferindb2|2022-04-10 00:50:42|3
+true|Select|abc|select * from table1 where id=1|2022-04-10 00:50:42|5
+true|Select|abc|select * from table1 where id=1|2022-04-10 00:50:42|1
+true|Select|abc|select * from table1 where id=2|2022-04-10 00:50:42|0

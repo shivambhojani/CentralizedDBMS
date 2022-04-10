@@ -3,6 +3,7 @@ package Query;
 import CreateSession.SessionCreator;
 import Logger.GetTimer;
 import Logger.LogGenerator;
+import Transaction.Transaction;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -376,7 +377,7 @@ public class QueryEngine {
                 result = useDB(queryData);
                 break;
 
-            case "insert": //working
+            case "insert":
                 result = insertRecord(queryData[2], query);
                 break;
 
@@ -385,13 +386,20 @@ public class QueryEngine {
                 result = selectRecord(queryData[1].strip(), query);
                 break;
 
-            case "update": //working
+            case "update":
                 result = updateRecord(queryData[1], query);
                 break;
 
             case "delete":
                 result = deleteRecord(queryData[2], query);
                 break;
+
+            case "start":
+                if (queryData[1].equalsIgnoreCase("transaction"))
+                {
+                    Transaction transaction = new Transaction();
+                    transaction.init();
+                }
 
             default:
                 System.out.println("Invalid Query! Please try again.");
