@@ -1,5 +1,4 @@
 package Query;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -54,6 +53,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + "meta.txt");
             res  =true;
 
         } catch (FileNotFoundException e) {
@@ -79,6 +79,8 @@ public class DBEngine {
 
             fileHandle.write(line);
             fileHandle.close();
+            client.sendMessage(dbName + "/" + "relationships.txt");
+
             res  =true;
 
         } catch (FileNotFoundException e) {
@@ -114,6 +116,7 @@ public class DBEngine {
                 line+= "\n";
                 fileHandle.write(line);
                 fileHandle.close();
+                client.sendMessage(dbName + "/" + tableData.get("name") + ".txt");
                 res= true;
 
             } catch (FileNotFoundException e) {
@@ -168,6 +171,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + "meta.txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -228,6 +232,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -252,8 +257,8 @@ public class DBEngine {
             {
                 len+= 1;
             }
-
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -280,6 +285,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -313,6 +319,7 @@ public class DBEngine {
 
             fileHandle.write(record);
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
             res = true;
 
         } catch (FileNotFoundException e) {
@@ -336,6 +343,7 @@ public class DBEngine {
             }
 
             fileHandle.close();
+            client.sendMessage(dbName + "/" + tableName + ".txt");
             res = true;
 
         } catch (FileNotFoundException e) {
