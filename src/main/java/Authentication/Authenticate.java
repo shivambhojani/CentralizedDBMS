@@ -2,13 +2,20 @@ package Authentication;
 
 import Configs.StaticData;
 import CreateSession.SessionCreator;
+import Distribution.Client;
 import Logger.LogGenerator;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Authenticate {
-    private String loggeduserID="";
+    private String loggeduserID = "";
+    private Client client;
+
+    public Authenticate(Client client) {
+        this.client = client;
+    }
+
     public void init() throws IOException, InterruptedException {
         System.out.println("1. Register");
         System.out.println("2. Login");
@@ -96,6 +103,7 @@ public class Authenticate {
         }
 
         user.save();
+        client.sendMessage(Constants.USER_PROFILE_TXT);
         init();
     }
 
@@ -151,12 +159,11 @@ public class Authenticate {
         if (!user.getAnswer().equalsIgnoreCase(answer)) {
             System.out.println("Invalid Security");
             return;
-        }
-        else {
+        } else {
             loggeduserID = userId;
             LogGenerator logGenerator = new LogGenerator();
             logGenerator.addToLoginHistory(loggeduserID, StaticData.login);
-            SessionCreator sessionCreator = new SessionCreator(loggeduserID);
+            SessionCreator sessionCreator = new SessionCreator(loggeduserID, client);
             sessionCreator.createSession();
         }
     }

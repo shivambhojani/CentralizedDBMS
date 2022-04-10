@@ -1,11 +1,13 @@
 package CreateSession;
-import Analytics.Analytics;
+
 import Authentication.Authenticate;
 import Configs.StaticData;
+import DataModeller.UMLGenerator;
+import Distribution.Client;
 import Exporter.ExportDump;
 import Logger.LogGenerator;
 import Query.EngineController;
-import DataModeller.UMLGenerator;
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -13,12 +15,13 @@ public class SessionCreator {
 
     public static String userID = "";
     LogGenerator logGenerator = new LogGenerator();
-
-    public SessionCreator(String userID){
-        this.userID = userID;
-    }
-
+    private Client client;
     private String userInput1 = "";
+
+    public SessionCreator(String userID, Client client) {
+        this.userID = userID;
+        this.client = client;
+    }
 
     public void createSession() throws IOException, InterruptedException {
 
@@ -33,7 +36,7 @@ public class SessionCreator {
             System.out.println("5. Logout");
             System.out.print("Enter Your Choice: ");
             Scanner sc = new Scanner(System.in);
-            String  input = sc.nextLine();
+            String input = sc.nextLine();
             userInput1 = input;
             switch (input) {
                 case "1":
@@ -48,13 +51,14 @@ public class SessionCreator {
                     umlEngine.startEngine();
                     break;
                 case "4":
-                    Analytics.main(new String[] {});
+                    //Integrate Analytics
+                    System.exit(0);
                     break;
 
                 case "5":
                     logGenerator.addToLoginHistory(userID, StaticData.logout);
                     System.out.println("Bye!!!");
-                    Authenticate authenticate = new Authenticate();
+                    Authenticate authenticate = new Authenticate(client);
                     authenticate.init();
                 default:
                     System.out.println("Incorrect option, Try Again");
@@ -62,7 +66,7 @@ public class SessionCreator {
             }
 
 
-        }while (userInput1 != "5");
+        } while (userInput1 != "5");
     }
 
 }

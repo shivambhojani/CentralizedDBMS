@@ -1,7 +1,9 @@
 import Authentication.Authenticate;
+import Distribution.Client;
 import Logger.GetTimer;
 
 import java.io.IOException;
+import java.net.Socket;
 
 
 public class main {
@@ -18,8 +20,14 @@ public class main {
 //        q.logQuery("database1", "Select * from person2;", true, "Shivam", "select",
 //                10, 10, 50);
 
+        Socket socket = new Socket("localhost", 1234);
+        Client client = new Client(socket, "1");
+        System.out.println("Server Connected");
+        client.listenForMessage();
+        client.sendMessage("./dontDelete.txt");
 
-        Authenticate authenticate = new Authenticate();
+
+        Authenticate authenticate = new Authenticate(client);
         authenticate.init();
 
 //        GetTimer t = new GetTimer();
