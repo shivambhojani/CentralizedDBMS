@@ -20,7 +20,7 @@ public class main {
 //        q.logQuery("database1", "Select * from person2;", true, "Shivam", "select",
 //                10, 10, 50);
 
-        Socket socket = new Socket("localhost", 1234);
+        Socket socket = new Socket("35.203.115.127", 1234);
         Client client = new Client(socket, "1");
         System.out.println("Server Connected");
         client.listenForMessage();
