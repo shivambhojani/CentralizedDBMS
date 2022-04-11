@@ -139,7 +139,7 @@ public class ExportDump {
     }
 
     public String getTableMetaInfo(String tableName, String dbName) throws FileNotFoundException {
-        String path = "./" + dbName + "./meta.txt";
+        String path = "./" + dbName + "/meta.txt";
         Map<String, String> tableMeta = new HashMap<>();
         String meta = "(";
         try {
