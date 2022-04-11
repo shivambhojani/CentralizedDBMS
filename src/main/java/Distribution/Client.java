@@ -65,6 +65,12 @@ public class Client {
     }
 
     public void processMessage(String data) throws IOException {
+        if(data == null){
+            return;
+        }
+        if(data.trim().length() <= 0){
+            return;
+        }
         String dataArr[] = data.split(Constants.distributedDelimiter);
         File f = null;
         String finalData = "";
