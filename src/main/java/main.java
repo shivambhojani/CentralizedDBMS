@@ -20,7 +20,7 @@ public class main {
 //                10, 10, 50);
 
         Socket socket = new Socket("35.203.115.127", 1234);
-        Client client = new Client(socket, "1");
+        Client client = new Client(socket, "2");
         System.out.println("Server Connected");
         client.listenForMessage();
         client.sendMessage("./dontDelete.txt");

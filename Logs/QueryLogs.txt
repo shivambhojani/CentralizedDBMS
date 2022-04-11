@@ -45,3 +45,14 @@ true|Update|abc|update table1 set name='abc' where id=1|2022-04-10 13:06:35|2
 true|Use|chirag|use ferindb2|2022-04-10 13:12:41|0
 true|Start|shivam|start transaction|2022-04-10 14:55:47|0
 true|rollback|shivam|rollback|2022-04-10 14:56:45|0
+true|Create|ferin79|create database test|2022-04-10 21:25:23|4
+true|Use|ferin79|use test|2022-04-10 21:25:55|0
+true|Use|ferin79|use test|2022-04-10 21:29:33|3
+true|Insert|ferin79|insert into persons values (1, 'ferin', 'patel')|2022-04-10 21:30:03|15
+true|Select|ferin79|select * from persons where id=1|2022-04-10 21:30:33|6
+true|Select|ferin79|select * from persons where personid=1|2022-04-10 21:31:20|9
+true|Select|ferin79|select * from persons|2022-04-10 21:33:12|3
+true|Select|ferin79|select * from persons|2022-04-10 21:33:22|3
+true|Select|ferin79|select * from persons|2022-04-10 21:35:32|3
+true|Select|ferin79|select * from persons|2022-04-10 21:36:46|1
+true|Create|ferin79|create database database1|2022-04-10 21:44:39|3

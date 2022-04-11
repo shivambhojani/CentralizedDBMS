@@ -51,8 +51,9 @@ public class Transaction {
 
         double startTime = System.nanoTime();
         for (String item : queries) {
-
-            queryEngine.execute(item);
+            if(item.trim().length() > 0){
+                queryEngine.execute(item);
+            }
         }
         double endTime = System.nanoTime();
 
