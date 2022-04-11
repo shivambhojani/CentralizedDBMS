@@ -409,7 +409,7 @@ public class QueryEngine {
                     Transaction transaction = new Transaction(client2);
                     transaction.init();
                 }
-
+                break;
             default:
                 String event = "User " + userID + " executed invalid query: " + query;
                 logGenerator.eventLog(event);
