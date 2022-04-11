@@ -69,7 +69,7 @@ public class ExportDump {
     }
 
     public String getInsertQuery(String dbName, String tableName) {
-        String path = "./" + dbName + "./" + tableName + ".txt";
+        String path = "./" + dbName + "/" + tableName + ".txt";
         try {
             File myObj = new File(path);
             Scanner myReader = new Scanner(myObj);
