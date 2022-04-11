@@ -2,10 +2,7 @@ package Analytics;
 
 import Configs.StaticData;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ public class Analytics {
     public static List<QueriesCounter> queriesCounters = new ArrayList<>();
     public static List<String> logs = new ArrayList<>();
     public static List<UpdateQueries> updateQueries = new ArrayList<>();
-
+    public static final String path = StaticData.AnalyticsPath + "/" + StaticData.analyticsFile;
 
     public static void main(String[] args) throws IOException {
         System.out.println("Analytics");
@@ -71,24 +68,33 @@ public class Analytics {
         return;
     }
 
-    public static void printUpdateQueries2(List<UpdateQueries> updateQueries) {
+    public static void printUpdateQueries2(List<UpdateQueries> updateQueries) throws IOException {
         if (updateQueries.size() == 0) {
             System.out.println("No update queries performed on db2");
             return;
         }
+        FileWriter file = new FileWriter(path, true);
         for (UpdateQueries update : updateQueries) {
+            file.write("Total " + update.getNoOfQueries() + " Update operations are performed on " + update.getTableName() +"\n");
             System.out.printf("Total " + update.getNoOfQueries() + "Update operations are performed on " + update.getTableName() + "\n");
         }
+        file.flush();
+        file.close();
     }
 
-    public static void printUpdateQueries(List<UpdateQueries> updateQueries) {
+    public static void printUpdateQueries(List<UpdateQueries> updateQueries) throws IOException {
         if (updateQueries.size() == 0) {
             System.out.println("No update queries performed on db1");
             return;
         }
+        FileWriter file = new FileWriter(path, true);
         for (UpdateQueries update : updateQueries) {
+            file.write("========================Update Queries===================================");
+            file.write("Total " + update.getNoOfQueries() + " Update operations are performed on " + update.getTableName() +"\n");
             System.out.printf("Total " + update.getNoOfQueries() + "Update operations are performed on " + update.getTableName() + "\n");
         }
+        file.flush();
+        file.close();
     }
 
     public static void generateUpdateQueries() {
@@ -139,18 +145,23 @@ public class Analytics {
         }
     }
 
-    public static void printCreateLogs(List<QueriesCounter> counters) {
+    public static void printCreateLogs(List<QueriesCounter> counters) throws IOException {
         if (queriesCounters.size() == 0) {
             System.out.println("No operations on the DB");
             return;
         }
+        FileWriter file = new FileWriter(path, true);
         for (QueriesCounter count : counters) {
             if (count.getUserName().equalsIgnoreCase("abc") || count.getUserName().equalsIgnoreCase("chirag") || count.getUserName().equalsIgnoreCase("dbuser")) {
+                file.write("User " + count.getUserName() + " has executed " + count.getNumberOfQueries() + " for DB2 running on Virtual Machine 2\n");
                 System.out.printf("User " + count.getUserName() + " has executed " + count.getNumberOfQueries() + " for DB2 running on Virtual Machine 2\n");
             } else {
+                file.write("User " + count.getUserName() + " has executed " + count.getNumberOfQueries() + " for DB1 running on Virtual Machine 1\n");
                 System.out.printf("User " + count.getUserName() + " has executed " + count.getNumberOfQueries() + " for DB1 running on Virtual Machine 1\n");
             }
         }
+        file.flush();
+        file.close();
     }
 
     public static void generateUserQueries() {

@@ -16,5 +16,7 @@ public class StaticData {
     public static String SQLDumpPath = "./SQLDump";
     public static String login = "login";
     public static String logout = "logout";
+    public static String AnalyticsPath = "./Analytics";
+    public static String analyticsFile = "analytics.txt";
 
 }

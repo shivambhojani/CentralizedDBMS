@@ -1,5 +1,6 @@
 package CreateSession;
 
+import Analytics.Analytics;
 import Authentication.Authenticate;
 import Configs.StaticData;
 import DataModeller.UMLGenerator;
@@ -51,8 +52,7 @@ public class SessionCreator {
                     umlEngine.startEngine();
                     break;
                 case "4":
-                    //Integrate Analytics
-                    System.exit(0);
+                    Analytics.main(new String[] {});
                     break;
 
                 case "5":
